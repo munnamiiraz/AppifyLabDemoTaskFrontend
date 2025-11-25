@@ -5,12 +5,14 @@ interface PostCreationState {
   content: string
   media: File[]
   error: string | null
+  isPrivate: boolean
 }
 
 const initialState: PostCreationState = {
   content: '',
   media: [],
   error: null,
+  isPrivate: false,
 }
 
 const postCreationSlice = createSlice({
@@ -31,13 +33,17 @@ const postCreationSlice = createSlice({
     setError: (state, action: PayloadAction<string>) => {
       state.error = action.payload
     },
+    setPrivacy: (state, action: PayloadAction<boolean>) => {
+      state.isPrivate = action.payload
+    },
     resetPostCreation: (state) => {
       state.content = ''
       state.media = []
       state.error = null
+      state.isPrivate = false
     },
   },
 })
 
-export const { setContent, addMedia, removeMedia, setError, resetPostCreation } = postCreationSlice.actions
+export const { setContent, addMedia, removeMedia, setError, setPrivacy, resetPostCreation } = postCreationSlice.actions
 export default postCreationSlice.reducer

@@ -275,13 +275,31 @@ const Posts = () => {
                 </div>
                 <div 
                   className="_feed_inner_timeline_post_box_dropdown" 
-                  style={{ position: 'relative' }}
-                  ref={(el) => { dropdownRefs.current[post.id] = el }}
+                  style={{ 
+                    position: 'relative',
+                    display: 'inline-block'
+                  }}
+                  ref={(el) => { 
+                    if (el) dropdownRefs.current[post.id] = el 
+                  }}
                 >
-                  <button 
-                    type="button" 
+                  <button
+                    type="button"
                     className="_feed_timeline_post_dropdown_link"
-                    onClick={() => toggleDropdown(post.id)}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      e.stopPropagation()
+                      toggleDropdown(post.id)
+                    }}
+                    style={{ 
+                      cursor: 'pointer',
+                      background: 'none',
+                      border: 'none',
+                      padding: '8px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}
                   >
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                       <circle cx="10" cy="4" r="2" fill="#666"/>
@@ -289,13 +307,15 @@ const Posts = () => {
                       <circle cx="10" cy="16" r="2" fill="#666"/>
                     </svg>
                   </button>
-                  <ThreeDotsMenu
-                    isAuthor={isCurrentUserPost(post.author.id)}
-                    onEdit={() => handleEditPost(post.id)}
-                    onDelete={() => handleDeletePost(post.id)}
-                    show={showDropdown[post.id] || false}
-                    onClose={() => setShowDropdown(prev => ({ ...prev, [post.id]: false }))}
-                  />
+                  {showDropdown[post.id] && (
+                    <ThreeDotsMenu
+                      isAuthor={isCurrentUserPost(post.author.id)}
+                      onEdit={() => handleEditPost(post.id)}
+                      onDelete={() => handleDeletePost(post.id)}
+                      show={true}
+                      onClose={() => setShowDropdown(prev => ({ ...prev, [post.id]: false }))}
+                    />
+                  )}
                 </div>
               </div>
 
@@ -334,7 +354,7 @@ const Posts = () => {
                   >
                     {post.comments.length} {post.comments.length === 1 ? 'comment' : 'comments'}
                   </span>
-                  <span>122 Shares</span>
+                  <span>0 Shares</span>
                 </div>
               </div>
             </div>

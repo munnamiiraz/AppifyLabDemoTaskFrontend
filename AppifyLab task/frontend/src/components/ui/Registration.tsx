@@ -18,7 +18,7 @@ import DarkShape from "../../assets/images/dark_shape.svg"
 import DarkShape1 from "../../assets/images/dark_shape1.svg"
 import DarkShape2 from "../../assets/images/dark_shape2.svg"
 import Registration1 from "../../assets/images/registration1.png"
-import Navbar from "./Navbar";
+
 
 const Registration: React.FC = () => {
   const [firstName, setFirstName] = useState<string>('');
@@ -65,8 +65,7 @@ const Registration: React.FC = () => {
 
   return (
     <div className="_layout _layout_main_wrapper">
-      <Navbar />
-      <div className="_main_layout">
+      <div className="_main_layout" style={{ paddingTop: '0px' }}>
         <section className="_social_registration_wrapper">
           <div className="_shape_one">
             <img src={Shape1} alt="" className="_shape_img" />

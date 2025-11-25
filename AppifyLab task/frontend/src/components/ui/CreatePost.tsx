@@ -2,14 +2,14 @@ import { useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useCreatePostMutation } from '../../store/api/createPostApi'
 import { useGetPostsQuery } from '../../store/api/getPostApi'
-import { setContent, addMedia, removeMedia, setError, resetPostCreation } from '../../store/slices/postCreationSlice'
+import { setContent, addMedia, removeMedia, setError, setPrivacy, resetPostCreation } from '../../store/slices/postCreationSlice'
 import type { RootState } from '../../store/store'
 
 import TxtImg from "../../assets/images/txt_img.png"
 
 const CreatePost = () => {
   const dispatch = useDispatch()
-  const { content, media, error } = useSelector((state: RootState) => state.postCreation)
+  const { content, media, error, isPrivate } = useSelector((state: RootState) => state.postCreation)
   const [createPost, { isLoading }] = useCreatePostMutation()
   const { refetch } = useGetPostsQuery()
   
@@ -56,12 +56,15 @@ const CreatePost = () => {
     try {
       const formData = new FormData()
       formData.append('content', content.trim())
+      formData.append('isPrivate', isPrivate.toString())
 
       // Add media files
       media.forEach((file) => {
         formData.append('files', file)
       })
 
+      // console.log(formData);
+      
       const result = await createPost(formData).unwrap()
       
       // Success - reset form
@@ -155,6 +158,35 @@ const CreatePost = () => {
         onChange={handleFileSelect}
       />
       
+      {/* Privacy Toggle */}
+      <div className="flex items-center gap-3 mt-3 mb-3">
+        <span className="text-sm text-gray-600">Privacy:</span>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => dispatch(setPrivacy(false))}
+            className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
+              !isPrivate 
+                ? 'bg-blue-500 text-white' 
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            }`}
+          >
+            🌍 Public
+          </button>
+          <button
+            type="button"
+            onClick={() => dispatch(setPrivacy(true))}
+            className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
+              isPrivate 
+                ? 'bg-blue-500 text-white' 
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            }`}
+          >
+            🔒 Private
+          </button>
+        </div>
+      </div>
+
       {/* For Desktop */}
       <div className="_feed_inner_text_area_bottom">
         <div className="_feed_inner_text_area_item">

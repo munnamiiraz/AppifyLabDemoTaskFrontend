@@ -7,7 +7,7 @@ import "../../assets/css/bootstrap.min.css"
 import "../../assets/css/common.css"
 import "../../assets/css/main.css"
 import "../../assets/css/responsive.css"
-import Navbar from '../ui/Navbar/Navbar'
+import Navbar from '../ui/Navbar'
 import LeftSidebar from '../ui/LeftSidebar'
 import LayoutMiddle from '../ui/LayoutMiddle'
 import RightSidebar from '../ui/RightSidebar'
@@ -37,7 +37,7 @@ const Feed = () => {
       <div className='_main_layout'>
         <Navbar />
         <div className="container _custom_container">
-				  <div className="_layout_inner_wrap">
+				  <div className="_layout_inner_wrap" style={{marginTop: '64px', paddingTop: '0'}}>
 					  <div className="row">
               <LeftSidebar />
               <LayoutMiddle />
